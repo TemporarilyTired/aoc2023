@@ -3,10 +3,15 @@ import sys
 
 
 SCRIPTS_DIR = "days"
+INPUTS_DIR = "input"
 
 
 def get_script_name(p):
     return f"day{p}"
+
+
+def get_input_path(p):
+    return f"{INPUTS_DIR}/iday{p if 'p' not in p else p.split('p')[0]}.txt"
 
 
 def get_module(p):
@@ -25,8 +30,11 @@ if __name__ == '__main__':
     problem = None
     while not problem:
         try:
-            problem = get_module(int(input()))
+            inp = input("Enter day (with p2 for second part of day): ")
+            problem = get_module(inp)
+            input_file = open(get_input_path(inp), 'r')
         except ValueError:
-            print("Not a valid positive integer (day may not be implemented yet), try again: ")
+            print("Cannnot find module or input (day may not be implemented yet), try again: ")
 
-    problem.solve()
+    problem.solve(input_file)
+    input_file.close()
